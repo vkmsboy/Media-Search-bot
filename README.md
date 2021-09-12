@@ -1,7 +1,7 @@
 # Modified Version Of [Media Search bot](https://github.com/Mahesh0253/Media-Search-bot)
 
 <div align = "center">
-  <img src = "https://telegra.ph/file/82848c7ab5bb6289cb99d.jpg" width = "300" height = "300">
+  <img src = "https://telegra.ph/file/82848c7ab5bb6289cb99d.jpg" width = "400" height = "300">
   <h1> Makise Kurisu </h1>
 </div>
 
