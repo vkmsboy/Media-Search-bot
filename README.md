@@ -2,7 +2,7 @@
 
 <div align = "center">
   <img src = "https://telegra.ph/file/82848c7ab5bb6289cb99d.jpg" width = "300" height = "300">
-  <h1> Eva </h1>
+  <h1> Makise Kurisu </h1>
 </div>
 
 ## Added Features
