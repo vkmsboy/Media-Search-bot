@@ -23,10 +23,7 @@ async def filter(client, message):
     try: 
         r = requests.post('https://api-ssl.bitly.com/v4/shorten', headers=headers,data = data ) 
         result = r.json() 
-        link = result["link"] 
-        await message.reply_text(f"```{link}```", reply_to_message_id= message.message_id) 
-    except Exception as e : 
-        await message.reply_text(e) 
+        link = result["link"]
         
     if message.text.startswith("/"):
         return
@@ -126,6 +123,14 @@ async def filter(client, message):
 
 @Client.on_message(filters.text & filters.group & filters.incoming & filters.chat(AUTH_GROUPS) if AUTH_GROUPS else filters.text & filters.group & filters.incoming)
 async def group(client, message):
+    DOMAIN = "bit.ly"
+    value  = {'long_url': URL , 'domain': DOMAIN}
+    data = json.dumps(value) 
+    try: 
+        r = requests.post('https://api-ssl.bitly.com/v4/shorten', headers=headers,data = data ) 
+        result = r.json() 
+        link = result["link"]
+
     if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
         return
     if 2 < len(message.text) < 50:    
