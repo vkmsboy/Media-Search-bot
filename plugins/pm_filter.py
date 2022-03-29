@@ -16,19 +16,18 @@ headers = {
 }
 
 @Client.on_message(filters.text & filters.private & filters.incoming & filters.user(AUTH_USERS) if AUTH_USERS else filters.text & filters.private & filters.incoming & filters.regex("http|https"))
-async def filter(client, message):
-      
-      DOMAIN = "bit.ly"
-      value  = {'long_url': URL , 'domain': DOMAIN}
-      data = json.dumps(value)
-      try: 
+async def filter(client, message): 
+    DOMAIN = "bit.ly"
+    value  = {'long_url': URL , 'domain': DOMAIN}
+    data = json.dumps(value) 
+    try: 
         r = requests.post('https://api-ssl.bitly.com/v4/shorten', headers=headers,data = data ) 
         result = r.json() 
         link = result["link"] 
         await message.reply_text(f"```{link}```", reply_to_message_id= message.message_id) 
-      except Exception as e : 
-        await message.reply_text(e)
-    
+    except Exception as e : 
+        await message.reply_text(e) 
+        
     if message.text.startswith("/"):
         return
     if AUTH_CHANNEL:
