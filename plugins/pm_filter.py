@@ -76,7 +76,7 @@ async def filter(client, message):
                 URL = f"https://telegram.dog/Pro_Movie_Search_q_bot?start=subinps_-_-_-_{file_id}"
                 filename = f"[{get_size(file.file_size)}] {file.file_name}"
                 btn.append(
-                    [InlineKeyboardButton(text=f"{filename}", url=f"{filename} + {link}")]
+                    [InlineKeyboardButton(text=f"{filename}", url=f"{link}")]
                     )
         else:
             await client.send_sticker(chat_id=message.from_user.id, sticker='CAADBQADMwIAAtbcmFelnLaGAZhgBwI')
