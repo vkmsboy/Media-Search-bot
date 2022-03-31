@@ -7,6 +7,14 @@ from pyrogram.errors import UserNotParticipant
 from utils import get_filter_results, get_file_details, is_subscribed, get_poster
 BUTTONS = {}
 BOT = {}
+
+headers = {
+    'Authorization': BITLY_TOKEN,
+    'Content-Type': 'application/json',
+}
+
+TOKEN = "391215c03f94031c4c4a47793efd046778e24027"
+
 @Client.on_message(filters.text & filters.private & filters.incoming & filters.user(AUTH_USERS) if AUTH_USERS else filters.text & filters.private & filters.incoming)
 async def filter(client, message):
     if message.text.startswith("/"):
@@ -55,8 +63,17 @@ async def filter(client, message):
             for file in files:
                 file_id = file.file_id
                 filename = f"[{get_size(file.file_size)}] {file.file_name}"
+                URL = f"https://telegram.dog/pro_file_to_link_bot?start=subinps_-_-_-_{file_id}"
+                DOMAIN = "bit.ly"
+                value  = {'long_url': URL , 'domain': DOMAIN}
+                data = json.dumps(value)
+                try: 
+                    r = requests.post('https://api-ssl.bitly.com/v4/shorten', headers=headers,data = data ) 
+                    result = r.json() 
+                    link = result["link"]
+                    
                 btn.append(
-                    [InlineKeyboardButton(text=f"{filename}", url=f"https://telegram.dog/pro_file_to_link_bot?start=subinps_-_-_-_{file_id}")]
+                    [InlineKeyboardButton(text=f"{filename}", url=f"{link}")]
                     )
         else:
             await client.send_sticker(chat_id=message.from_user.id, sticker='CAADBQADMwIAAtbcmFelnLaGAZhgBwI')
