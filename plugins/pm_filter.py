@@ -2,29 +2,13 @@
 from info import AUTH_CHANNEL, AUTH_USERS, CUSTOM_FILE_CAPTION, API_KEY, AUTH_GROUPS
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters
-import json
 import re
 from pyrogram.errors import UserNotParticipant
 from utils import get_filter_results, get_file_details, is_subscribed, get_poster
 BUTTONS = {}
 BOT = {}
-BITLY_TOKEN = "391215c03f94031c4c4a47793efd046778e24027"
-
-headers = {
-    'Authorization': BITLY_TOKEN,
-    'Content-Type': 'application/json',
-}
-
-@Client.on_message(filters.text & filters.private & filters.incoming & filters.user(AUTH_USERS) if AUTH_USERS else filters.text & filters.private & filters.incoming & filters.regex("http|https"))
-async def filter(client, message): 
-    DOMAIN = "bit.ly"
-    value  = {'long_url': URL , 'domain': DOMAIN}
-    data = json.dumps(value) 
-    try: 
-        r = requests.post('https://api-ssl.bitly.com/v4/shorten', headers=headers,data = data ) 
-        result = r.json() 
-        link = result["link"]
-        
+@Client.on_message(filters.text & filters.private & filters.incoming & filters.user(AUTH_USERS) if AUTH_USERS else filters.text & filters.private & filters.incoming)
+async def filter(client, message):
     if message.text.startswith("/"):
         return
     if AUTH_CHANNEL:
@@ -42,11 +26,11 @@ async def filter(client, message):
         except UserNotParticipant:
             await client.send_message(
                 chat_id=message.from_user.id,
-                text="**Please Join My Mean Channel to use this Bot!**",
+                text="**Please Join My Updates Channel to use this Bot!**",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton("🤖 Join Mean Channel", url=invite_link.invite_link)
+                            InlineKeyboardButton("🤖 Join Updates Channel", url=invite_link.invite_link)
                         ]
                     ]
                 ),
@@ -70,10 +54,9 @@ async def filter(client, message):
         if files:
             for file in files:
                 file_id = file.file_id
-                URL = f"https://telegram.dog/Pro_Movie_Search_q_bot?start=subinps_-_-_-_{file_id}"
                 filename = f"[{get_size(file.file_size)}] {file.file_name}"
                 btn.append(
-                    [InlineKeyboardButton(text=f"{filename}", url=f"{link}")]
+                    [InlineKeyboardButton(text=f"{filename}",callback_data=f"subinps#{file_id}")]
                     )
         else:
             await client.send_sticker(chat_id=message.from_user.id, sticker='CAADBQADMwIAAtbcmFelnLaGAZhgBwI')
@@ -123,14 +106,6 @@ async def filter(client, message):
 
 @Client.on_message(filters.text & filters.group & filters.incoming & filters.chat(AUTH_GROUPS) if AUTH_GROUPS else filters.text & filters.group & filters.incoming)
 async def group(client, message):
-    DOMAIN = "bit.ly"
-    value  = {'long_url': URL , 'domain': DOMAIN}
-    data = json.dumps(value) 
-    try: 
-        r = requests.post('https://api-ssl.bitly.com/v4/shorten', headers=headers,data = data ) 
-        result = r.json() 
-        link = result["link"]
-
     if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
         return
     if 2 < len(message.text) < 50:    
@@ -146,9 +121,8 @@ async def group(client, message):
             for file in files:
                 file_id = file.file_id
                 filename = f"[{get_size(file.file_size)}] {file.file_name}"
-                URL = f"https://telegram.dog/Pro_Movie_Search_q_bot?start=subinps_-_-_-_{file_id}"
                 btn.append(
-                    [InlineKeyboardButton(text=f"{filename}", url=f"{link}")]
+                    [InlineKeyboardButton(text=f"{filename}", url=f"https://telegram.dog/{nyva}?start=subinps_-_-_-_{file_id}")]
                 )
         else:
             return
@@ -298,11 +272,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
         elif query.data == "about":
             buttons = [
                 [
-            InlineKeyboardButton('Mean Channel', url='https://t.me/Hindi_world_seties'),
-            InlineKeyboardButton('Movie Group', url='https://t.me/Chat_room_y')
+                    InlineKeyboardButton('Update Channel', url='https://t.me/subin_works'),
+                    InlineKeyboardButton('Source Code', url='https://github.com/subinps/Media-Search-bot')
                 ]
                 ]
-            await query.message.edit(text="<b>Owner : <a href='https://t.me/Hidden_Boy_i'>Only q</a>\nMovie Group : <a href='https://t.me/Chat_room_y'>Click here</a>\nMᴇᴀɴ Cʜᴀɴɴᴇʟ : <a href='https://t.me/Hindi_world_series'>𝐇𝐢𝐧𝐝𝐢 𝐰𝐨𝐫𝐥𝐝 𝐬𝐞𝐫𝐢𝐞𝐬</a>", reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
+            await query.message.edit(text="<b>Developer : <a href='https://t.me/subinps_bot'>SUBIN</a>\nLanguage : <code>Python3</code>\nLibrary : <a href='https://docs.pyrogram.org/'>Pyrogram asyncio</a>\nSource Code : <a href='https://github.com/subinps/Media-Search-bot'>Click here</a>\nUpdate Channel : <a href='https://t.me/subin_works'>XTZ Bots</a> </b>", reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
 
 
 
@@ -323,8 +297,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     f_caption = f"{files.file_name}"
                 buttons = [
                     [
-            InlineKeyboardButton('Mean Channel', url='https://t.me/Hindi_world_seties'),
-            InlineKeyboardButton('Movie Group', url='https://t.me/Chat_room_y')
+                        InlineKeyboardButton('More Bots', url='https://t.me/subin_works/122'),
+                        InlineKeyboardButton('Update Channel', url='https://t.me/subin_works')
                     ]
                     ]
                 
@@ -355,8 +329,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     f_caption = f"{title}"
                 buttons = [
                     [
-            InlineKeyboardButton('Mean Channel', url='https://t.me/Hindi_world_seties'),
-            InlineKeyboardButton('Movie Group', url='https://t.me/Chat_room_y')
+                        InlineKeyboardButton('More Bots', url='https://t.me/subin_works/122'),
+                        InlineKeyboardButton('Update Channel', url='https://t.me/subin_works')
                     ]
                     ]
                 
@@ -372,4 +346,4 @@ async def cb_handler(client: Client, query: CallbackQuery):
         elif query.data == "pages":
             await query.answer()
     else:
-        await query.answer("Isn't it a little more fun?👀",show_alert=True)
+        await query.answer("കൌതുകും ലേശം കൂടുതൽ ആണല്ലേ👀",show_alert=True)
