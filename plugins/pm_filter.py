@@ -75,7 +75,7 @@ async def filter(client, message):
                     link = result["link"]
                     
                 btn.append(
-                    [InlineKeyboardButton(text=f"{filename}", url=f"{link}")]
+                    [InlineKeyboardButton(text=f"{filename}", url=f"{URL}")]
                     )
         else:
             await client.send_sticker(chat_id=message.from_user.id, sticker='CAADBQADMwIAAtbcmFelnLaGAZhgBwI')
